@@ -1,0 +1,40 @@
+// Victor Ortiz 2009
+function sistema
+f=figure('Color','black');
+load topo
+
+axis square off
+props.FaceColor= 'texture';
+props.EdgeColor = 'none';
+props.FaceLighting = 'phong';
+props.Cdata = topo;
+
+[tx,ty,tz] = sphere(13);
+axis([-100,100,-100,100,-100,100]);
+axis off vis3d
+
+campos([-30,30,30])
+hold on
+surface(tx,ty,tz,'EdgeColor','red');        
+tx = tx+5;
+lx = (tx * 0.25);
+ly = (ty * 0.25);
+lz = (tz * 0.25);
+
+z2 = tz;
+for j=0:.1:(2*pi)
+    x2 = (tx)*cos(j)-ty*sin(j);
+    y2 = (tx)*sin(j)+ty*cos(j);    
+    tierra = surface(x2+cos(j),y2+sin(j),z2,props);        
+    for i=0:.1:(2*pi)    
+        x1 = ((lx)*cos(i)-ly*sin(i));
+        y1 = ((lx)*sin(i)+ly*cos(i));
+        z1 = lz;    
+        luna = surface(x1+cos(j)*6,y1+sin(j)*6,z1,'EdgeColor','white');                
+        pause(0.001);
+        delete(luna);        
+    end        
+    delete(tierra);
+end
+close(f)
+end
